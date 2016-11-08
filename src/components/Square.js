@@ -22,7 +22,7 @@ class Square extends Component {
 		const color = ((col+row)%2 === 0) ? 'dark' : 'light';
 		return (
 			<div className={color + " board-square"}>
-				{this.showPiece}
+				{this.showPiece(piece)}
 			</div>
 		);
 	}

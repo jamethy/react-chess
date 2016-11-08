@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class Board extends Component {
+
+    getPiece(pieces, i, j) {
+        return {};
+    }
+
 	render() {
+
+        const { pieces } = this.props;
 
 		const rows = [];
 
@@ -11,7 +18,7 @@ class Board extends Component {
 			for (var i = 0; i < 8; i++) {
 				const row = j;
 				const col = i;
-				cols.push(<Square key={j+i} row={row} col={col}></Square>);
+				cols.push(<Square key={j+i} row={row} col={col} piece={this.getPiece(pieces, i, j)}></Square>);
 			}
 			rows.push(cols);
 		}

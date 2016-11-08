@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 
 class Piece extends Component {
 	render() {
+
+        const { piece } = this.props;
+
 		return (
-			<div>Piece</div>
+            <img src={piece.image}/>
 		);
 	}
 }
