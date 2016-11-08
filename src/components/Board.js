@@ -4,13 +4,21 @@ import Square from './Square';
 class Board extends Component {
 	render() {
 
-		// TODO: convert the array to an 8x8 grid
+		const rows = [];
+
+		for (var j = 0; j < 8; j++) {
+			const cols = [];
+			for (var i = 0; i < 8; i++) {
+				const row = j;
+				const col = i;
+				cols.push(<Square key={j+i} row={row} col={col}></Square>);
+			}
+			rows.push(cols);
+		}
 
 		return (
-			<div style={{width: 500, height: 500}}>
-				{[...Array(64)].fill(undefined).map((val, indx) => {
-					return <Square key={indx} index={indx}></Square>
-				})}
+			<div className="board" style={{width: 400, height: 400}}>
+				{rows}
 			</div>
 		);
 	}
