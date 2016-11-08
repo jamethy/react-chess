@@ -6,20 +6,13 @@ class Board extends Component {
   getPiece(pieces, i, j) {
       var pos = ["A","B","C","D","E","F","G","H"][i] + (j+1);
 
-      for (var piece in pieces.team1) {
-          const p = pieces.team1[piece];
+      for (var piece in pieces) {
+          var p = pieces[piece]
           if (p.position != null && p.position.toUpperCase() === pos) {
               return p;
           }
       }
-
-      for (var piece in pieces.team2) {
-          const p = pieces.team2[piece];
-          if (p.position != null && p.position.toUpperCase() === pos) {
-              return p;
-          }
-      }
-      return {};
+      return null;
   }
 
 	render() {
@@ -32,7 +25,12 @@ class Board extends Component {
             for (var i = 7; i >= 0; i--) {
 				const row = j;
 				const col = i;
-				cols.push(<Square key={j+i} row={row} col={col} piece={this.getPiece(pieces, i, j)}></Square>);
+                const piece1 = this.getPiece(pieces.team1,i,j);
+                const piece2 = this.getPiece(pieces.team2,i,j);
+                const piece = piece1 === null ? piece2 : piece1;
+                const hasAvailableMoves = piece != null; // replace with real logic
+                
+				cols.push(<Square key={j+i} row={row} col={col} piece={piece} hasAvailableMoves={hasAvailableMoves}></Square>);
 			}
 			rows.push(cols);
 		}

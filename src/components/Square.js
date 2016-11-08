@@ -16,12 +16,14 @@ class Square extends Component {
 
 	render() {
 		
+         
 		// pull these off the props
-		const { row, col, piece } = this.props;
+		const { row, col, piece, hasAvailableMoves } = this.props;
 
 		const color = ((col+row)%2 === 0) ? 'dark' : 'light';
+        const hasMoves = hasAvailableMoves ? 'moves' : '';
 		return (
-			<div className={color + " board-square"}>
+			<div className={color + " " + hasMoves + " board-square"}>
 				{this.showPiece(piece)}
 			</div>
 		);
