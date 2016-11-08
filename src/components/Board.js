@@ -4,6 +4,14 @@ import Square from './Square';
 class Board extends Component {
 
     getPiece(pieces, i, j) {
+        var pos = ["A","B","C","D","E","F","G","H"][i] + (j+1);
+
+        for (var piece in pieces) {
+            const p = pieces[piece];
+            if (p.position != null && p.position.toUpperCase() === pos) {
+                return p;
+            }
+        }
         return {};
     }
 
