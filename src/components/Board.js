@@ -3,16 +3,15 @@ import Square from './Square';
 
 class Board extends Component {
 
-    getPiece(pieces, i, j) {
-        return {};
-    }
+	getPiece(pieces, i, j) {
+	    return {};
+	}
 
 	render() {
-
-        const { pieces } = this.props;
+		
+		const { pieces } = this.props;
 
 		const rows = [];
-
 		for (var j = 0; j < 8; j++) {
 			const cols = [];
 			for (var i = 0; i < 8; i++) {

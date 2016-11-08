@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Board from './components/Board';
-import Graveyard from './components/Graveyard';
-import black_pawn_image from '../public/images/pieces/black_pawn.svg';
+import logo from '../logo.svg';
+import '../App.css';
+import Board from './Board';
+import Graveyard from './Graveyard';
+import initialPieces from '../init-pieces';
 
 class App extends Component {
 
-    constructor() {
-        super();
-    }
+  constructor() {
+      super();
 
-    state = {
-        pieces: {}
-    };
+      this.state = {
+        pieces: initialPieces
+      }
+  }
 
   render() {
     return (
