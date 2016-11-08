@@ -6,8 +6,15 @@ class Board extends Component {
   getPiece(pieces, i, j) {
       var pos = ["A","B","C","D","E","F","G","H"][i] + (j+1);
 
-      for (var piece in pieces) {
-          const p = pieces[piece];
+      for (var piece in pieces.team1) {
+          const p = pieces.team1[piece];
+          if (p.position != null && p.position.toUpperCase() === pos) {
+              return p;
+          }
+      }
+
+      for (var piece in pieces.team2) {
+          const p = pieces.team2[piece];
           if (p.position != null && p.position.toUpperCase() === pos) {
               return p;
           }
