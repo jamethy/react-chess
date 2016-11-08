@@ -56,9 +56,9 @@ class Board extends Component {
 		const { pieces } = this.props;
 
 		const rows = [];
-		for (var j = 0; j < 8; j++) {
+        for (var j = 7; j >= 0; j--) {
 			const cols = [];
-			for (var i = 0; i < 8; i++) {
+            for (var i = 7; i >= 0; i--) {
 				const row = j;
 				const col = i;
 				cols.push(<Square key={j+i} row={row} col={col} piece={this.getPiece(pieces, i, j)}></Square>);
