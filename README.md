@@ -1,2 +1,2 @@
 # react-chess
-Chess game build with React JS
+Chess game build with React JS!
