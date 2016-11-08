@@ -38,9 +38,13 @@ class Board extends Component {
 		}
 
 		return (
-			<div className="board" style={{width: 400, height: 400}}>
-				{rows}
-			</div>
+      <div className="board-container">
+        <div className="graveyard team1"></div>
+        <div className="board" style={{width: 400, height: 400}}>
+          {rows}
+        </div>
+        <div className="graveyard team2"></div>
+      </div>
 		);
 	}
 }

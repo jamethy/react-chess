@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 import Board from './Board';
-import Graveyard from './Graveyard';
 import initialPieces from '../init-pieces';
 
 class App extends Component {
@@ -23,7 +22,6 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <Board pieces={this.state.pieces} style={{float: 'left'}}/>
-        <Graveyard className="graveyard" style={{float: 'left'}} />
       </div>
     );
   }
