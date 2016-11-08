@@ -22,8 +22,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <Board pieces={this.state.pieces}/>
-        <Graveyard />
+        <Board pieces={this.state.pieces} style={{float: 'left'}}/>
+        <Graveyard className="graveyard" style={{float: 'left'}} />
       </div>
     );
   }
