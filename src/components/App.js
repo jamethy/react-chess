@@ -24,8 +24,6 @@ class App extends Component {
     const pieces = {...this.state.pieces};
     const graveyard = {...this.state.graveyard};
 
-    console.log(graveyard);
-
     Object.keys(pieces['team1']).forEach((k) => {
       if (pieces['team1'][k].id === piece.id) {
         piece.position = null;

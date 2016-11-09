@@ -4,8 +4,6 @@ class Piece extends Component {
 
   constructor() {
     super();
-
-    console.log(this.props);
   }
 
 	render() {

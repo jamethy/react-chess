@@ -11,7 +11,7 @@ class Board extends Component {
   }
 
   renderGraveyard(p) {
-    return <Piece piece={p}></Piece>
+    return <Piece key={p.id} piece={p}></Piece>
   }
 
   getPiece(pieces, i, j) {
