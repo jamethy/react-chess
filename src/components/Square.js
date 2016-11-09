@@ -27,7 +27,7 @@ class Square extends Component {
     const boardPosition = getBoardPosition(col, row);
 
 		let highlight = false;
-    if (this.props.selectedPiece != undefined) {
+    if (this.props.selectedPiece != null) {
     	highlight = this.props.selectedPiece.availableMoves.indexOf(boardPosition) !== -1;
     }
 

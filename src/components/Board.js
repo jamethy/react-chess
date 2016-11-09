@@ -15,13 +15,15 @@ class Board extends Component {
   }
 
   getPiece(pieces, i, j) {
-      var pos = ["A","B","C","D","E","F","G","H"][i] + (j+1);
+      let pos = ["A","B","C","D","E","F","G","H"][i] + (j+1);
 
-      for (var piece in pieces) {
-          var p = pieces[piece]
+      for (let piece in pieces) {
+        if (piece != null) {
+          let p = pieces[piece]
           if (p.position != null && p.position.toUpperCase() === pos) {
               return p;
           }
+        }
       }
       return null;
   }
@@ -38,7 +40,7 @@ class Board extends Component {
 				const col = i;
         const piece1 = this.getPiece(pieces.team1,i,j);
         const piece2 = this.getPiece(pieces.team2,i,j);
-        const piece = piece1 === null ? piece2 : piece1;
+        const piece = piece1 == null ? piece2 : piece1;
         const hasAvailableMoves = piece != null; // replace with real logic
                 
 				cols.push(<Square key={j+i} row={row} col={col} piece={piece} hasAvailableMoves={hasAvailableMoves} movePiece={this.props.movePiece} selectedPiece={this.props.selectedPiece} selectPiece={this.props.selectPiece}></Square>);

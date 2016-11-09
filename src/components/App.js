@@ -104,8 +104,6 @@ class App extends Component {
 
     piece.availableMoves = getAvailableMoves(team1, team2, piece, isWhite);
 
-    console.log(piece);
-
     // override the selected piece
     this.setState({
       selectedPiece: piece
