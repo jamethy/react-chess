@@ -52,7 +52,15 @@ class App extends Component {
   selectPiece(piece) {
     const team1 = this.state.pieces['team1'];
     const team2 = this.state.pieces['team2'];
-    piece.availableMoves = getAvailableMoves(team1, team2, piece, true);
+
+    let isWhite = false;
+    Object.keys(team1).forEach((k) => {
+      if (team1[k].id === piece.id) {
+        isWhite = true;
+      }
+    });
+
+    piece.availableMoves = getAvailableMoves(team1, team2, piece, isWhite);
 
     console.log(piece);
 
