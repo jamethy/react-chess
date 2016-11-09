@@ -49,6 +49,10 @@
   background-color: #eee; 
 }
 
+.board-square.moves:hover {
+  background-color: #696;
+}
+
 .graveyard {
   border: 1px dashed #333;
 }
