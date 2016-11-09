@@ -1,6 +1,11 @@
 
 export function getAvailableMoves(teamwhite, teamblack, piece, isWhite) {
-  switch (type.toUpperCase()) {
+
+  if (piece == null) {
+    return [];
+  }
+
+  switch (piece.type.toUpperCase()) {
     case "PAWN":
       return getPawnMoves(teamwhite, teamblack, piece, isWhite);
     case "ROOK":
@@ -27,12 +32,12 @@ var toColString = function( colInt ) {
 }
 
 var isOnBoard = function( rowInt, colInt ) {
-  return !(rowInt < 1 || rowInt > 8 || colInt < 1 || colInt > 8) {
+  return !(rowInt < 1 || rowInt > 8 || colInt < 1 || colInt > 8);
 }
 
 
 var hasPiece = function(pieces, rowInt, colInt) {
-  for (piece in pieces) {
+  for (var piece in pieces) {
     var pieceRow = parseInt(pieces[piece].position[1]);
     var pieceCol = toColInt(pieces[piece].position[0]);
 
@@ -44,6 +49,10 @@ var hasPiece = function(pieces, rowInt, colInt) {
 }
 
 var hitPiece = function( rowInt, colInt, teamwhite, teamblack, isWhite, possibleMoves ) { 
+
+  if (!isOnBoard(rowInt,colInt)) {
+    return false;
+  }
 
   // if blocked by team piece
   if ( hasPiece( (isWhite ? teamwhite : teamblack), rowInt, colInt ) ) {
@@ -86,13 +95,13 @@ export function getPawnMoves(teamwhite, teamblack, piece, isWhite) {
     }
 
     // forward-left
-    if (col > 'A') {
+    if (isOnBoard(rowInt, colInt)) {
       if ( hasPiece( (isWhite ? teamblack : teamwhite), rowInt+forward, colInt-1)) {
         possibleMoves.push(toColString(colInt-1) + (rowInt+forward));
       }
     }
     // forward-right
-    if (col < 'H') {
+    if (isOnBoard(rowInt, colInt)) {
       if ( hasPiece( (isWhite ? teamblack : teamwhite), rowInt+forward, colInt+1)) {
         possibleMoves.push(toColString(colInt+1) + (rowInt+forward));
       }
