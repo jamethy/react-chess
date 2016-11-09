@@ -27,23 +27,41 @@ class App extends Component {
   movePiece(piece, position) {
     const pieces = {...this.state.pieces};
     
+    let isTeam1 = false;
     Object.keys(pieces['team1']).forEach((k) => {
       if (pieces['team1'][k].id === piece.id) {
         piece.position = position;
-        pieces['team1'][k] = piece;
+        pieces['team1'][k] = piece
+        isTeam1 = true;
       }
     });
 
+    let isTeam2 = false;
     Object.keys(pieces['team2']).forEach((k) => {
       if (pieces['team2'][k].id === piece.id) {
         piece.position = position;
         pieces['team2'][k] = piece;
+        isTeam2 = true;
       }
     });
 
+    if (isTeam1) {
+      Object.keys(pieces['team2']).forEach((i) => {
+        if (pieces['team2'][i].position === position) {
+          this.killPiece(pieces['team2'][i]);
+        }
+      });
+    } else if (isTeam2) {
+      Object.keys(pieces['team1']).forEach((i) => {
+        if (pieces['team1'][i].position === position) {
+          this.killPiece(pieces['team1'][i]);
+        }
+      });
+    }
+
     this.setState({
       pieces: pieces,
-      selectedPiece: null
+      selectedPiece: null,
     });
   }
 
