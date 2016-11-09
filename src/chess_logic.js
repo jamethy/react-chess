@@ -5,6 +5,14 @@ export function getAvailableMoves(teamwhite, teamblack, piece, isWhite) {
       return getPawnMoves(teamwhite, teamblack, piece, isWhite);
     case "ROOK":
       return getRookMoves(teamwhite, teamblack, piece, isWhite);
+    case "KNIGHT":
+      return getKnightMoves(teamwhite, teamblack, piece, isWhite);
+    case "BISHOP":
+      return getBishopMoves(teamwhite, teamblack, piece, isWhite);
+    case "QUEEN":
+      return getQueenMoves(teamwhite, teamblack, piece, isWhite);
+    case "KING":
+      return getKingMoves(teamwhite, teamblack, piece, isWhite);
     default:
       return [];
   }
@@ -16,6 +24,10 @@ var toColInt = function( colString ) {
 
 var toColString = function( colInt ) {
   return String.fromCharCode( colInt - 1 + 'a'.codePointAt(0) );
+}
+
+var isOnBoard = function( rowInt, colInt ) {
+  return !(rowInt < 1 || rowInt > 8 || colInt < 1 || colInt > 8) {
 }
 
 
@@ -89,6 +101,7 @@ export function getPawnMoves(teamwhite, teamblack, piece, isWhite) {
     // en passant.....
   }
 
+  return possibleMoves;
 }
 
 export function getRookMoves(teamwhite, teamblack, piece, isWhite) {
@@ -123,5 +136,104 @@ export function getRookMoves(teamwhite, teamblack, piece, isWhite) {
     }
   }
 
+  return possibleMoves;
+}
+
+export function getBishopMoves(teamwhite, teamblack, piece, isWhite) {
+
+  var possibleMoves = [];
+  var colInt = toColInt(piece.position[0]);
+  var rowInt = parseInt(piece.position[1]);
+
+  // iterate up-left
+  var possibleRow = rowInt + 1;
+  var possibleCol = colInt - 1;
+  while(isOnBoard(possibleRow, possibleCol)) {
+    if (hitPiece( possibleRow, possibleCol, teamwhite, teamblack, isWhite, possibleMoves) ) {
+      break;
+    }
+    possibleRow += 1;
+    possibleCol -= 1;
+  }
+   
+  // iterate down-left
+  possibleRow = rowInt - 1;
+  possibleCol = colInt - 1;
+  while(isOnBoard(possibleRow, possibleCol)) {
+    if (hitPiece( possibleRow, possibleCol, teamwhite, teamblack, isWhite, possibleMoves) ) {
+      break;
+    }
+    possibleRow -= 1;
+    possibleCol -= 1;
+  }
+   
+  // iterate down-right
+  possibleRow = rowInt - 1;
+  possibleCol = colInt + 1;
+  while(isOnBoard(possibleRow, possibleCol)) {
+    if (hitPiece( possibleRow, possibleCol, teamwhite, teamblack, isWhite, possibleMoves) ) {
+      break;
+    }
+    possibleRow -= 1;
+    possibleCol += 1;
+  }
+   
+  // iterate up-right
+  possibleRow = rowInt + 1;
+  possibleCol = colInt + 1;
+  while(isOnBoard(possibleRow, possibleCol)) {
+    if (hitPiece( possibleRow, possibleCol, teamwhite, teamblack, isWhite, possibleMoves) ) {
+      break;
+    }
+    possibleRow += 1;
+    possibleCol += 1;
+  }
+
+  return possibleMoves;
+}
+
+export function getQueenMoves(teamwhite, teamblack, piece, isWhite) {
+
+  return getBishopMoves(teamwhite, teamblack, piece, isWhite)
+    .concat( getRookMoves(teamwhite, teamblack, piece, isWhite) );
+
+}
+  
+export function getKingMoves(teamwhite, teamblack, piece, isWhite) {
+
+  var possibleMoves = [];
+  var colInt = toColInt(piece.position[0]);
+  var rowInt = parseInt(piece.position[1]);
+
+  hitPiece( rowInt-1, colInt  , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+1, colInt  , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt  , colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt  , colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
+
+  hitPiece( rowInt-1, colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+1, colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt-1, colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+1, colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
+
+  return possibleMoves;
+}
+
+export function getKnightMoves(teamwhite, teamblack, piece, isWhite) {
+
+  var possibleMoves = [];
+  var colInt = toColInt(piece.position[0]);
+  var rowInt = parseInt(piece.position[1]);
+
+  hitPiece( rowInt+1, colInt+2 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+2, colInt+1 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+1, colInt-2 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt+2, colInt-1 , teamwhite, teamblack, isWhite, possibleMoves);
+
+  hitPiece( rowInt-1, colInt+2 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt-2, colInt+1 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt-1, colInt-2 , teamwhite, teamblack, isWhite, possibleMoves);
+  hitPiece( rowInt-2, colInt-1 , teamwhite, teamblack, isWhite, possibleMoves);
+
+  return possibleMoves;
 }
 
