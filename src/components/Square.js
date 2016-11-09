@@ -6,7 +6,10 @@ class Square extends Component {
 
 	constructor() {
 		super();
+
 		this.showPiece = this.showPiece.bind(this);
+
+
 	}
 
 	showPiece(piece) {
@@ -21,14 +24,15 @@ class Square extends Component {
 
 		const color = ((col+row)%2 === 0) ? 'dark' : 'light';
     const hasMoves = hasAvailableMoves ? 'moves' : '';
+    const boardPosition = getBoardPosition(col, row);
 
 		let highlight = false;
     if (this.props.selectedPiece != undefined) {
-    	highlight = this.props.selectedPiece.availableMoves.indexOf(getBoardPosition(col, row)) !== -1;
+    	highlight = this.props.selectedPiece.availableMoves.indexOf(boardPosition) !== -1;
     }
 
 		return (
-			<div className={(highlight ? 'highlight' : '') + " " + color + " " + hasMoves + " board-square"}>
+			<div onClick={highlight ? ()=> this.props.movePiece(this.props.selectedPiece, boardPosition) : undefined} className={(highlight ? 'highlight' : '') + " " + color + " " + hasMoves + " board-square"}>
 				{this.showPiece(piece)}
 			</div>
 		);

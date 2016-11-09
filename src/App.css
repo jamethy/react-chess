@@ -50,7 +50,12 @@
 }
 
 .board-square.highlight {
-  background-color: #90EE90; 
+  opacity: 0.5;
+  background-color: #90EE90;
+}
+
+.board-square.highlight:hover {
+  opacity: 1.0;
 }
 
 .board-square.moves:hover {

@@ -10,6 +10,7 @@ class App extends Component {
   constructor() {
     super();
 
+    this.movePiece = this.movePiece.bind(this);
     this.killPiece = this.killPiece.bind(this);
     this.selectPiece = this.selectPiece.bind(this);
 
@@ -21,6 +22,29 @@ class App extends Component {
         team2: []
       }
     }
+  }
+
+  movePiece(piece, position) {
+    const pieces = {...this.state.pieces};
+    
+    Object.keys(pieces['team1']).forEach((k) => {
+      if (pieces['team1'][k].id === piece.id) {
+        piece.position = position;
+        pieces['team1'][k] = piece;
+      }
+    });
+
+    Object.keys(pieces['team2']).forEach((k) => {
+      if (pieces['team2'][k].id === piece.id) {
+        piece.position = position;
+        pieces['team2'][k] = piece;
+      }
+    });
+
+    this.setState({
+      pieces: pieces,
+      selectedPiece: null
+    });
   }
 
   killPiece(piece) {
@@ -74,6 +98,7 @@ class App extends Component {
           style={{float: 'left'}}
           graveyard={this.state.graveyard}
           selectPiece={this.selectPiece}
+          movePiece={this.movePiece}
           selectedPiece={this.state.selectedPiece} />
       </div>
     );
