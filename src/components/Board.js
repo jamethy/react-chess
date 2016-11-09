@@ -33,7 +33,7 @@ class Board extends Component {
 		const rows = [];
     for (var j = 7; j >= 0; j--) {
 			const cols = [];
-      for (var i = 7; i >= 0; i--) {
+      for (var i = 0; i <= 7; ++i) {
 				const row = j;
 				const col = i;
         const piece1 = this.getPiece(pieces.team1,i,j);

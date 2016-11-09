@@ -64,7 +64,7 @@ var hitPiece = function( rowInt, colInt, teamwhite, teamblack, isWhite, possible
     return true;
   }
   // if blocked by enemy piece
-  else if ( hasPiece( (isWhite ? teamwhite : teamblack), rowInt, colInt ) ) {
+  else if ( hasPiece( (isWhite ? teamblack : teamwhite), rowInt, colInt ) ) {
     possibleMoves.push(toColString(colInt) + rowInt);
     return true;
   }
