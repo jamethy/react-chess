@@ -10,7 +10,7 @@ class Square extends Component {
 
 	showPiece(piece) {
 		if (piece) {
-			return <Piece piece={piece}></Piece>
+			return <Piece killPiece={this.props.killPiece}  piece={piece}></Piece>
 		}
 	}
 

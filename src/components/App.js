@@ -12,15 +12,39 @@ class App extends Component {
     this.killPiece = this.killPiece.bind(this);
 
     this.state = {
-      pieces: initialPieces
+      pieces: initialPieces,
+      graveyard: {
+        team1: [],
+        team2: []
+      }
     }
   }
 
   killPiece(piece) {
-    const pieces = [...this.state.pieces];
-    pieces[piece].location = null;
+    const pieces = {...this.state.pieces};
+    const graveyard = {...this.state.graveyard};
+
+    console.log(graveyard);
+
+    Object.keys(pieces['team1']).forEach((k) => {
+      if (pieces['team1'][k].id === piece.id) {
+        piece.position = null;
+        pieces['team1'][k] = piece;
+        graveyard['team1'].push(piece);
+      }
+    });
+
+    Object.keys(pieces['team2']).forEach((k) => {
+      if (pieces['team2'][k].id === piece.id) {
+        piece.position = null;
+        pieces['team2'][k] = piece;
+        graveyard['team2'].push(piece);
+      }
+    });
+    
     this.setState({
-      pieces
+      pieces,
+      graveyard
     });
   }
 
@@ -34,7 +58,8 @@ class App extends Component {
         <Board 
           pieces={this.state.pieces} 
           style={{float: 'left'}}
-          killPiece={(piece) => this.killPiece(piece)} />
+          killPiece={this.killPiece}
+          graveyard={this.state.graveyard} />
       </div>
     );
   }

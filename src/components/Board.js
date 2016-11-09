@@ -7,25 +7,11 @@ class Board extends Component {
   constructor() {
     super();
 
-    this.addToGraveYard = this.addToGraveYard.bind(this);
-
-    this.state = {
-      team1Graveyard: [],
-      team2Graveyard: []
-    }
+    this.renderGraveyard = this.renderGraveyard.bind(this);
   }
 
-  addToGraveYard(piece, indx) {
-    console.log({piece, indx})
-    // if (indx === 1) {
-    //   const team1Graveyard = [...this.state.team1Graveyard];
-    //   team1Graveyard.push(<Piece piece={piece}></Piece>);
-    //   this.setState(team1Graveyard);
-    // } else if (indx === 2) {
-    //   const team2Graveyard = [...this.state.team2Graveyard];
-    //   team2Graveyard.push(<Piece piece={piece}></Piece>);
-    //   this.setState(team2Graveyard);
-    // }
+  renderGraveyard(p) {
+    return <Piece piece={p}></Piece>
   }
 
   getPiece(pieces, i, j) {
@@ -35,8 +21,6 @@ class Board extends Component {
           const p = pieces.team1[piece];
           if (p.position != null && p.position.toUpperCase() === pos) {
               return p;
-          } else {
-            this.addToGraveYard(p, 1);
           }
       }
 
@@ -44,8 +28,6 @@ class Board extends Component {
           const p = pieces.team2[piece];
           if (p.position != null && p.position.toUpperCase() === pos) {
               return p;
-          } else {
-            this.addToGraveYard(p, 2);
           }
       }
       return {};
@@ -56,26 +38,26 @@ class Board extends Component {
 		const { pieces } = this.props;
 
 		const rows = [];
-        for (var j = 7; j >= 0; j--) {
-			const cols = [];
-            for (var i = 7; i >= 0; i--) {
-				const row = j;
-				const col = i;
-				cols.push(<Square key={j+i} row={row} col={col} piece={this.getPiece(pieces, i, j)}></Square>);
-			}
+    for (var j = 7; j >= 0; j--) {
+      const cols = [];
+      for (var i = 7; i >= 0; i--) {
+		    const row = j;
+		    const col = i;
+		    cols.push(<Square killPiece={this.props.killPiece}  key={j+i} row={row} col={col} piece={this.getPiece(pieces, i, j)}></Square>);
+      }
 			rows.push(cols);
 		}
 
 		return (
       <div className="board-container">
         <div className="graveyard team1">
-          {this.state.team1Graveyard}
+          {this.props.graveyard['team1'].map(this.renderGraveyard)}
         </div>
         <div className="board" style={{width: 400, height: 400}}>
           {rows}
         </div>
-        <div className="graveyard team2">
-          {this.state.team2Graveyard}
+        <div ref="graveyard-team-1" className="graveyard team2">
+          {this.props.graveyard['team2'].map(this.renderGraveyard)}
         </div>
       </div>
 		);
