@@ -23,6 +23,11 @@ export function getAvailableMoves(teamwhite, teamblack, piece, isWhite) {
   }
 }
 
+// don't call function within this file
+export function getBoardPosition(i,j) {
+  return ["a","b","c","d","e","f","g","h"][i] + (j+1);
+}
+
 var toColInt = function( colString ) {
   return colString.toLowerCase().codePointAt(0) - 'a'.codePointAt(0) + 1;
 }
