@@ -260,39 +260,28 @@ export function getKingMoves(teamwhite, teamblack, piece, isWhite, ignoreSafe) {
       }
 
       // pretend to move
-      let kingteam = JSON.parse(JSON.stringify( isWhite ? teamwhite : teamblack ));
-      let enemyteam = JSON.parse(JSON.stringify( isWhite ? teamblack : teamwhite ));
-      const newPos = toColString(newCol) + newRow;
-
-      Object.keys(kingteam).forEach((k) => {
-        if (kingteam[k].id === piece.id) {
-          kingteam[k].position = newPos;
-        }
-      });
-
-      Object.keys(enemyteam).forEach((k) => {
-        if (enemyteam[k].position === newPos) {
-          enemyteam[k].position = null;
-        }
-      });
-
       let isSafe = true;
       if (!ignoreSafe) {
-        Object.keys(enemyteam).forEach((k) => {
+        let kingteam = JSON.parse(JSON.stringify( isWhite ? teamwhite : teamblack ));
+        let enemyteam = JSON.parse(JSON.stringify( isWhite ? teamblack : teamwhite ));
+        const newPos = toColString(newCol) + newRow;
 
-          let enemyMoves = [];
-          if (enemyteam[k].type.toUpperCase() === "KING") {
-            enemyMoves = getKingMoves(teamwhite,teamblack, enemyteam[k], !isWhite, true);
-          }
-          else {
-            enemyMoves = getAvailableMoves(teamwhite,teamblack, enemyteam[k], !isWhite);
-          }
-          for (const m in enemyMoves) {
-            if (enemyMoves[m] === newPos) {
-              isSafe = false;
-            }
+        Object.keys(kingteam).forEach((k) => {
+          if (kingteam[k].id === piece.id) {
+            kingteam[k].position = newPos;
           }
         });
+
+        Object.keys(enemyteam).forEach((k) => {
+          if (enemyteam[k].position === newPos) {
+            enemyteam[k].position = null;
+          }
+        });
+
+        isSafe = isKingInCheck(
+          isWhite ? kingteam : enemyteam,
+          isWhite ? enemyteam : kingteam,
+          newPos, isWhite);
       }
       
       if (isSafe) {
@@ -302,6 +291,30 @@ export function getKingMoves(teamwhite, teamblack, piece, isWhite, ignoreSafe) {
   }
 
   return possibleMoves;
+}
+
+export function isKingInCheck(teamwhite, teamblack, kingPos, isWhite) {
+
+  const enemyteam = isWhite ? teamblack : teamwhite;
+
+  let isSafe = true;
+
+  Object.keys(enemyteam).forEach((k) => {
+
+    let enemyMoves = [];
+    if (enemyteam[k].type.toUpperCase() === "KING") {
+      enemyMoves = getKingMoves( teamwhite, teamblack, enemyteam[k], !isWhite, true);
+    }
+    else {
+      enemyMoves = getAvailableMoves( teamwhite, teamblack, enemyteam[k], !isWhite);
+    }
+    for (const m in enemyMoves) {
+      if (enemyMoves[m] === kingPos) {
+        isSafe = false;
+      }
+    }
+  });
+  return isSafe;
 }
 
 export function getKnightMoves(teamwhite, teamblack, piece, isWhite) {
