@@ -43,11 +43,13 @@ var isOnBoard = function( rowInt, colInt ) {
 
 var hasPiece = function(pieces, rowInt, colInt) {
   for (var piece in pieces) {
-    var pieceRow = parseInt(pieces[piece].position[1]);
-    var pieceCol = toColInt(pieces[piece].position[0]);
+    if (pieces[piece].position != null) {
+      var pieceRow = parseInt(pieces[piece].position[1]);
+      var pieceCol = toColInt(pieces[piece].position[0]);
 
-    if (pieceRow == rowInt && pieceCol == colInt) {
-      return true;
+      if (pieceRow == rowInt && pieceCol == colInt) {
+        return true;
+      }
     }
   }
   return false;
@@ -80,6 +82,10 @@ var hitPiece = function( rowInt, colInt, teamwhite, teamblack, isWhite, possible
 export function getPawnMoves(teamwhite, teamblack, piece, isWhite) {
 
   var possibleMoves = [];
+
+  if (piece.position == null) {
+    return possibleMoves;
+  }
 
   var forward = isWhite ? 1 : -1;
   var colInt = toColInt(piece.position[0]);
@@ -121,6 +127,11 @@ export function getPawnMoves(teamwhite, teamblack, piece, isWhite) {
 export function getRookMoves(teamwhite, teamblack, piece, isWhite) {
 
   var possibleMoves = [];
+
+  if (piece.position == null) {
+    return possibleMoves;
+  }
+
   var colInt = toColInt(piece.position[0]);
   var rowInt = parseInt(piece.position[1]);
 
@@ -156,6 +167,11 @@ export function getRookMoves(teamwhite, teamblack, piece, isWhite) {
 export function getBishopMoves(teamwhite, teamblack, piece, isWhite) {
 
   var possibleMoves = [];
+
+  if (piece.position == null) {
+    return possibleMoves;
+  }
+
   var colInt = toColInt(piece.position[0]);
   var rowInt = parseInt(piece.position[1]);
 
@@ -208,6 +224,10 @@ export function getBishopMoves(teamwhite, teamblack, piece, isWhite) {
 
 export function getQueenMoves(teamwhite, teamblack, piece, isWhite) {
 
+  if (piece.position == null) {
+    return [];
+  }
+
   return getBishopMoves(teamwhite, teamblack, piece, isWhite)
     .concat( getRookMoves(teamwhite, teamblack, piece, isWhite) );
 
@@ -216,6 +236,11 @@ export function getQueenMoves(teamwhite, teamblack, piece, isWhite) {
 export function getKingMoves(teamwhite, teamblack, piece, isWhite, ignoreSafe) {
 
   let possibleMoves = [];
+
+  if (piece.position == null) {
+    return possibleMoves;
+  }
+
   let colInt = toColInt(piece.position[0]);
   let rowInt = parseInt(piece.position[1]);
 
@@ -282,6 +307,11 @@ export function getKingMoves(teamwhite, teamblack, piece, isWhite, ignoreSafe) {
 export function getKnightMoves(teamwhite, teamblack, piece, isWhite) {
 
   var possibleMoves = [];
+
+  if (piece.position == null) {
+    return possibleMoves;
+  }
+
   var colInt = toColInt(piece.position[0]);
   var rowInt = parseInt(piece.position[1]);
 
