@@ -1,7 +1,7 @@
 
 export function getAvailableMoves(teamwhite, teamblack, piece, isWhite) {
 
-  if (piece == null) {
+  if (piece == null || piece.position == null) {
     return [];
   }
 
@@ -17,7 +17,7 @@ export function getAvailableMoves(teamwhite, teamblack, piece, isWhite) {
     case "QUEEN":
       return getQueenMoves(teamwhite, teamblack, piece, isWhite);
     case "KING":
-      return getKingMoves(teamwhite, teamblack, piece, isWhite);
+      return getKingMoves(teamwhite, teamblack, piece, isWhite, false);
     default:
       return [];
   }
@@ -213,21 +213,68 @@ export function getQueenMoves(teamwhite, teamblack, piece, isWhite) {
 
 }
   
-export function getKingMoves(teamwhite, teamblack, piece, isWhite) {
+export function getKingMoves(teamwhite, teamblack, piece, isWhite, ignoreSafe) {
 
-  var possibleMoves = [];
-  var colInt = toColInt(piece.position[0]);
-  var rowInt = parseInt(piece.position[1]);
+  let possibleMoves = [];
+  let colInt = toColInt(piece.position[0]);
+  let rowInt = parseInt(piece.position[1]);
 
-  hitPiece( rowInt-1, colInt  , teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt+1, colInt  , teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt  , colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt  , colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
+  const relativeMoves = [[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,-1],[-1,1],[1,1]];
 
-  hitPiece( rowInt-1, colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt+1, colInt-1, teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt-1, colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
-  hitPiece( rowInt+1, colInt+1, teamwhite, teamblack, isWhite, possibleMoves);
+  let safePossibleMoves = [];
+  for (let move in relativeMoves) {
+
+    const newRow = rowInt + relativeMoves[move][0];
+    const newCol = colInt + relativeMoves[move][1];
+
+    if (!isOnBoard(newRow,newCol)) {
+      continue;
+    }
+    // if blocked by team piece
+    if ( hasPiece( (isWhite ? teamwhite : teamblack), newRow, newCol) ) {
+      continue;
+    }
+
+    // pretend to move
+    let kingteam = JSON.parse(JSON.stringify( isWhite ? teamwhite : teamblack ));
+    let enemyteam = JSON.parse(JSON.stringify( isWhite ? teamblack : teamwhite ));
+    const newPos = toColString(newCol) + newRow;
+
+    Object.keys(kingteam).forEach((k) => {
+      if (kingteam[k].id === piece.id) {
+        kingteam[k].position = newPos;
+      }
+    });
+
+    Object.keys(enemyteam).forEach((k) => {
+      if (enemyteam[k].position === newPos) {
+        enemyteam[k].position = null;
+      }
+    });
+
+    let isSafe = true;
+    if (!ignoreSafe) {
+      Object.keys(enemyteam).forEach((k) => {
+
+        let enemyMoves = [];
+        if (enemyteam[k].type.toUpperCase() === "KING") {
+          enemyMoves = getKingMoves(teamwhite,teamblack, enemyteam[k], !isWhite, true);
+        }
+        else {
+          enemyMoves = getAvailableMoves(teamwhite,teamblack, enemyteam[k], !isWhite);
+        }
+        for (const m in enemyMoves) {
+          if (enemyMoves[m] === newPos) {
+            isSafe = false;
+          }
+        }
+      });
+    }
+    
+    if (isSafe) {
+      possibleMoves.push(toColString(newCol) + newRow);
+    }
+  }
 
   return possibleMoves;
 }
