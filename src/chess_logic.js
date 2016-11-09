@@ -89,12 +89,12 @@ export function getPawnMoves(teamwhite, teamblack, piece, isWhite) {
 
     // one forward
     if (!hasPiece(teamwhite, rowInt+forward, colInt) && !hasPiece(teamblack, rowInt+forward, colInt)) {
-      possibleMoves.push(toColString(colInt) + rowInt+forward);
+      possibleMoves.push(toColString(colInt) + (rowInt+forward));
 
       // two forward
       if ((isWhite ? rowInt == 2 : rowInt == 7)) {
         if (!hasPiece(teamwhite, rowInt+2*forward, colInt) && !hasPiece(teamblack, rowInt+2*forward, colInt)) {
-          possibleMoves.push(toColString(colInt) + rowInt+2*forward);
+          possibleMoves.push(toColString(colInt) + (rowInt+2*forward));
         }
       }
     }

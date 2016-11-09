@@ -9,7 +9,7 @@ class Piece extends Component {
 	render() {
     const { piece } = this.props;
 		return (
-      <img src={piece.image} onClick={() => this.props.killPiece(piece)} role="presentation" />
+      <img src={piece.image} onClick={() => this.props.selectPiece(piece)} role="presentation" />
 		);
 	}
 }

@@ -49,6 +49,10 @@
   background-color: #eee; 
 }
 
+.board-square.highlight {
+  background-color: #90EE90; 
+}
+
 .board-square.moves:hover {
   background-color: #696;
 }

@@ -3,6 +3,7 @@ import logo from '../logo.svg';
 import '../App.css';
 import Board from './Board';
 import initialPieces from '../init-pieces';
+import { getAvailableMoves } from '../chess_logic';
 
 class App extends Component {
 
@@ -10,8 +11,10 @@ class App extends Component {
     super();
 
     this.killPiece = this.killPiece.bind(this);
+    this.selectPiece = this.selectPiece.bind(this);
 
     this.state = {
+      selectedPiece : null,
       pieces: initialPieces,
       graveyard: {
         team1: [],
@@ -46,6 +49,19 @@ class App extends Component {
     });
   }
 
+  selectPiece(piece) {
+    const team1 = this.state.pieces['team1'];
+    const team2 = this.state.pieces['team2'];
+    piece.availableMoves = getAvailableMoves(team1, team2, piece, true);
+
+    console.log(piece);
+
+    // override the selected piece
+    this.setState({
+      selectedPiece: piece
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -56,8 +72,9 @@ class App extends Component {
         <Board 
           pieces={this.state.pieces} 
           style={{float: 'left'}}
-          killPiece={this.killPiece}
-          graveyard={this.state.graveyard} />
+          graveyard={this.state.graveyard}
+          selectPiece={this.selectPiece}
+          selectedPiece={this.state.selectedPiece} />
       </div>
     );
   }

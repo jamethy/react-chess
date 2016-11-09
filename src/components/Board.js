@@ -41,7 +41,7 @@ class Board extends Component {
         const piece = piece1 === null ? piece2 : piece1;
         const hasAvailableMoves = piece != null; // replace with real logic
                 
-				cols.push(<Square key={j+i} row={row} col={col} piece={piece} killPiece={this.props.killPiece} hasAvailableMoves={hasAvailableMoves}></Square>);
+				cols.push(<Square key={j+i} row={row} col={col} piece={piece} hasAvailableMoves={hasAvailableMoves} selectedPiece={this.props.selectedPiece} selectPiece={this.props.selectPiece}></Square>);
 			}
 			rows.push(cols);
 		}
