@@ -32,8 +32,17 @@ class Board extends Component {
       for (var i = 0; i <= 7; ++i) {
 				const row = j;
 				const col = i;
-        const piece1 = this.getPiece(pieces.team1,i,j);
-        const piece2 = this.getPiece(pieces.team2,i,j);
+
+        let piece1 = null;
+        if (pieces != null && pieces.team1 != null) {
+          piece1 = this.getPiece(pieces.team1,i,j);
+        }
+        
+        let piece2 = null;
+        if (pieces != null && pieces.team2 != null) {
+          piece2 = this.getPiece(pieces.team2,i,j);
+        }
+
         const piece = piece1 == null ? piece2 : piece1;
         const hasAvailableMoves = piece != null; // replace with real logic
                 
@@ -42,8 +51,18 @@ class Board extends Component {
 			rows.push(cols);
 		}
 
-    const graveyard1 = graveyard['team1'].map(this.renderGraveyard);
-    const graveyard2 = graveyard['team2'].map(this.renderGraveyard);
+    let team1Pieces = graveyard != null ? graveyard['team1'] : [];
+    let graveyard1 = null;
+    if (team1Pieces != null) {
+      graveyard1 = team1Pieces.map(this.renderGraveyard);
+    }
+    
+    let team2Pieces = graveyard != null ? graveyard['team2'] : [];
+    let graveyard2 = null;
+    if (team2Pieces != null) {
+      graveyard2 = team2Pieces.map(this.renderGraveyard);
+    }
+    
 		return (
       <div className="board-container">
         <div className="graveyard team1">

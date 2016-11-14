@@ -18,21 +18,29 @@ class App extends Component {
     this.selectPiece = this.selectPiece.bind(this);
 
     this.state = {
-      game : {
-        turn: "white",
-        pieces: initialPieces,
-        graveyard : {
-          team1 : [],
-          team2 : []
-        }
-      },
-      selectedPiece : null,
+      game : {},
+      selectedPiece : null
     };
-
   }
 
   componentWillMount() {
-    this.ref = base.syncState(`${this.props.params.gameId}/game`, { context: this, state: 'game' });
+
+    console.log(this.state.game);
+
+    this.ref = base.syncState(`${this.props.params.gameId}/game`, { 
+      context: this,
+      state: 'game',
+      then() {
+        if (this.state.game.pieces == null) {
+          this.setState({
+            game: {
+              turn: "white",
+              pieces: initialPieces
+            }
+          });
+        }
+      }
+    });
 
     const localStorageRef = localStorage.getItem(`game-${this.props.params.gameId}`);
     if (localStorageRef) {
@@ -120,12 +128,12 @@ class App extends Component {
       }
     });
     
-        this.setState({
-          game : {
-            turn: this.state.game.turn,
-            pieces,
-            graveyard : graveyard
-          }
+    this.setState({
+      game : {
+        turn: this.state.game.turn,
+        pieces,
+        graveyard : graveyard
+      }
     });
   }
 
@@ -150,10 +158,7 @@ class App extends Component {
 
   render() {
 
-    console.log(this.state);
-
-    const { graveyard } = this.state.game;
-    const team1 = graveyard.team1;
+    console.log('rendering...', this.state);
 
     return (
       <div className="App">
@@ -163,7 +168,7 @@ class App extends Component {
         </div>
         <Board 
           pieces={this.state.game.pieces} 
-          graveyard={graveyard}
+          graveyard={this.state.game.graveyard}
           style={{float: 'left'}}
           selectPiece={this.selectPiece}
           movePiece={this.movePiece}
