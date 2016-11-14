@@ -3,6 +3,7 @@ import logo from '../logo.svg';
 import Board from './Board';
 import initialPieces from '../init-pieces';
 import { getAvailableMoves } from '../chess_logic';
+import base from '../base';
 
 // css
 import '../App.css';
@@ -17,21 +18,42 @@ class App extends Component {
     this.selectPiece = this.selectPiece.bind(this);
 
     this.state = {
-      user: {
-        team: null
+      game : {
+        turn: "white",
+        pieces: initialPieces,
+        graveyard : {
+          team1 : [],
+          team2 : []
+        }
       },
-      turn: 'team1',
       selectedPiece : null,
-      pieces: initialPieces,
-      graveyard: {
-        team1: [],
-        team2: []
-      }
+    };
+
+  }
+
+  componentWillMount() {
+    this.ref = base.syncState(`${this.props.params.gameId}/game`, { context: this, state: 'game' });
+
+    const localStorageRef = localStorage.getItem(`game-${this.props.params.gameId}`);
+    if (localStorageRef) {
+        this.setState({
+            selectedPiece: JSON.parse(localStorageRef)
+        });
     }
   }
 
+  componentWillUnmount() {
+      base.removeBinding(this.ref);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+      localStorage.setItem(`game-${this.props.params.gameId}`, JSON.stringify(nextState.selectedPiece));
+  }
+
   movePiece(piece, position) {
-    const pieces = {...this.state.pieces};
+
+    const pieces = {...this.state.game.pieces};
+    const graveyard = {...this.state.game.graveyard};
     
     let isTeam1 = false;
     Object.keys(pieces['team1']).forEach((k) => {
@@ -65,15 +87,22 @@ class App extends Component {
       });
     }
 
+    let turn = {...this.state.game.turn};
+    turn = (turn === "white" ? "black" : "white");
+
     this.setState({
-      pieces: pieces,
+      game : {
+        turn: turn,
+        pieces : pieces,
+        graveyard : graveyard
+      },
       selectedPiece: null,
     });
   }
 
   killPiece(piece) {
-    const pieces = {...this.state.pieces};
-    const graveyard = {...this.state.graveyard};
+    const pieces = {...this.state.game.pieces};
+    const graveyard = {...this.state.game.graveyard};
 
     Object.keys(pieces['team1']).forEach((k) => {
       if (pieces['team1'][k].id === piece.id) {
@@ -91,15 +120,18 @@ class App extends Component {
       }
     });
     
-    this.setState({
-      pieces,
-      graveyard
+        this.setState({
+          game : {
+            turn: this.state.game.turn,
+            pieces,
+            graveyard : graveyard
+          }
     });
   }
 
   selectPiece(piece) {
-    const team1 = this.state.pieces['team1'];
-    const team2 = this.state.pieces['team2'];
+    const team1 = this.state.game.pieces['team1'];
+    const team2 = this.state.game.pieces['team2'];
 
     let isWhite = false;
     Object.keys(team1).forEach((k) => {
@@ -112,11 +144,17 @@ class App extends Component {
 
     // override the selected piece
     this.setState({
-      selectedPiece: piece
+      selectedPiece : piece
     });
   }
 
   render() {
+
+    console.log(this.state);
+
+    const { graveyard } = this.state.game;
+    const team1 = graveyard.team1;
+
     return (
       <div className="App">
         <div className="App-header">
@@ -124,9 +162,9 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <Board 
-          pieces={this.state.pieces} 
+          pieces={this.state.game.pieces} 
+          graveyard={graveyard}
           style={{float: 'left'}}
-          graveyard={this.state.graveyard}
           selectPiece={this.selectPiece}
           movePiece={this.movePiece}
           selectedPiece={this.state.selectedPiece} />
