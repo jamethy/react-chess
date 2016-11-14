@@ -32,10 +32,15 @@ class App extends Component {
       state: 'game',
       then() {
         if (this.state.game.pieces == null) {
+          console.log('here...');
           this.setState({
             game: {
               turn: "white",
-              pieces: initialPieces
+              pieces: initialPieces,
+              graveyard: {
+                team1: [],
+                team2: []
+              }
             }
           });
         }
@@ -116,6 +121,9 @@ class App extends Component {
       if (pieces['team1'][k].id === piece.id) {
         piece.position = null;
         pieces['team1'][k] = piece;
+        if (graveyard['team1'] == null) {
+          graveyard['team1'] = [];
+        }
         graveyard['team1'].push(piece);
       }
     });
@@ -124,6 +132,9 @@ class App extends Component {
       if (pieces['team2'][k].id === piece.id) {
         piece.position = null;
         pieces['team2'][k] = piece;
+        if (graveyard['team2'] == null) {
+          graveyard['team2'] = [];
+        }
         graveyard['team2'].push(piece);
       }
     });

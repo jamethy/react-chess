@@ -10,8 +10,4 @@ class Piece extends Component {
 	}
 }
 
-Piece.propTypes = {
-  selectPiece: React.PropTypes.func.isRequired
-}
-
 export default Piece;
