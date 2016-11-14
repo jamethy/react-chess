@@ -4,6 +4,8 @@ import Board from './Board';
 import initialPieces from '../init-pieces';
 import { getAvailableMoves } from '../chess_logic';
 import base from '../base';
+import black_pawn_image from '../../public/images/pieces/black_pawn.svg';
+import white_pawn_image from '../../public/images/pieces/white_pawn.svg';
 
 // css
 import '../App.css';
@@ -183,6 +185,9 @@ class App extends Component {
           selectPiece={this.selectPiece}
           movePiece={this.movePiece}
           selectedPiece={this.state.selectedPiece} />
+        <div className="current-move">
+          <img style={{width: 200}} src={this.state.game.turn === 'black' ? black_pawn_image : white_pawn_image} alt="current-move" />
+        </div>
       </div>
     );
   }
