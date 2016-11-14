@@ -34,7 +34,7 @@ module.exports = {
 		pawn_4: {
 			id: 4,
 			type: 'pawn',
-			position: 'd3',
+			position: 'd2',
 			image: white_pawn_image
 		},
 		pawn_5: {
@@ -46,7 +46,7 @@ module.exports = {
 		pawn_6: {
 			id: 6,
 			type: 'pawn',
-			position: 'f3',
+			position: 'f2',
 			image: white_pawn_image
 		},
 		pawn_7: {
@@ -58,7 +58,7 @@ module.exports = {
 		pawn_8: {
 			id: 8,
 			type: 'pawn',
-			position: 'h4',
+			position: 'h2',
 			image: white_pawn_image
 		},
 
@@ -89,7 +89,7 @@ module.exports = {
 		king_1: {
 			id: 13,
 			type: 'king',
-			position: 'e4',
+			position: 'e1',
 			image: white_king_image
 		},
 		knight_2: {
@@ -128,7 +128,7 @@ module.exports = {
 		pawn_3: {
 			id: 19,
 			type: 'pawn',
-			position: 'c6',
+			position: 'c7',
 			image: black_pawn_image
 		},
 		pawn_4: {
@@ -171,7 +171,7 @@ module.exports = {
 		bishop_1: {
 			id: 26,
 			type: 'bishop',
-			position: 'f4',
+			position: 'b8',
 			image: black_bishop_image
 		},
 		knight_1: {
@@ -183,7 +183,7 @@ module.exports = {
 		queen_1: {
 			id: 28,
 			type: 'queen',
-			position: 'f2',
+			position: 'd8',
 			image: black_queen_image
 		},
 		king_1: {
