@@ -4,12 +4,6 @@ import Piece from './Piece';
 
 class Board extends Component {
 
-  constructor() {
-    super();
-
-    this.renderGraveyard = this.renderGraveyard.bind(this);
-  }
-
   renderGraveyard(p) {
     return <Piece key={p.id} piece={p}></Piece>
   }
@@ -30,7 +24,7 @@ class Board extends Component {
 
 	render() {
 		
-		const { pieces } = this.props;
+		const { pieces, graveyard } = this.props;
 
 		const rows = [];
     for (var j = 7; j >= 0; j--) {
@@ -48,16 +42,18 @@ class Board extends Component {
 			rows.push(cols);
 		}
 
+    const graveyard1 = graveyard['team1'].map(this.renderGraveyard);
+    const graveyard2 = graveyard['team2'].map(this.renderGraveyard);
 		return (
       <div className="board-container">
         <div className="graveyard team1">
-          {this.props.graveyard['team1'].map(this.renderGraveyard)}
+          {graveyard1}
         </div>
         <div className="board" style={{width: 400, height: 400}}>
           {rows}
         </div>
         <div ref="graveyard-team-1" className="graveyard team2">
-          {this.props.graveyard['team2'].map(this.renderGraveyard)}
+          {graveyard2}
         </div>
       </div>
 		);
