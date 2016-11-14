@@ -8,8 +8,6 @@ class Square extends Component {
 		super();
 
 		this.showPiece = this.showPiece.bind(this);
-
-
 	}
 
 	showPiece(piece) {

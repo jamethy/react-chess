@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
-import '../App.css';
 import Board from './Board';
 import initialPieces from '../init-pieces';
 import { getAvailableMoves } from '../chess_logic';
+
+// css
+import '../App.css';
 
 class App extends Component {
 
@@ -15,6 +17,10 @@ class App extends Component {
     this.selectPiece = this.selectPiece.bind(this);
 
     this.state = {
+      user: {
+        team: null
+      },
+      turn: 'team1',
       selectedPiece : null,
       pieces: initialPieces,
       graveyard: {
