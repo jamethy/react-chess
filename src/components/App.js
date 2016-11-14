@@ -25,14 +25,11 @@ class App extends Component {
 
   componentWillMount() {
 
-    console.log(this.state.game);
-
     this.ref = base.syncState(`${this.props.params.gameId}/game`, { 
       context: this,
       state: 'game',
       then() {
         if (this.state.game.pieces == null) {
-          console.log('here...');
           this.setState({
             game: {
               turn: "white",
@@ -67,41 +64,45 @@ class App extends Component {
 
     const pieces = {...this.state.game.pieces};
     const graveyard = {...this.state.game.graveyard};
+    let turn = this.state.game.turn;
     
-    let isTeam1 = false;
-    Object.keys(pieces['team1']).forEach((k) => {
-      if (pieces['team1'][k].id === piece.id) {
-        piece.position = position;
-        pieces['team1'][k] = piece
-        isTeam1 = true;
-      }
-    });
-
-    let isTeam2 = false;
-    Object.keys(pieces['team2']).forEach((k) => {
-      if (pieces['team2'][k].id === piece.id) {
-        piece.position = position;
-        pieces['team2'][k] = piece;
-        isTeam2 = true;
-      }
-    });
-
-    if (isTeam1) {
-      Object.keys(pieces['team2']).forEach((i) => {
-        if (pieces['team2'][i].position === position) {
-          this.killPiece(pieces['team2'][i]);
+    if (this.state.game.turn === "white") {
+      let moved = false;
+      Object.keys(pieces['team1']).forEach((k) => {
+        if (pieces['team1'][k].id === piece.id) {
+          piece.position = position;
+          pieces['team1'][k] = piece
+          moved = true;
         }
       });
-    } else if (isTeam2) {
-      Object.keys(pieces['team1']).forEach((i) => {
-        if (pieces['team1'][i].position === position) {
-          this.killPiece(pieces['team1'][i]);
-        }
-      });
+      if (moved) {
+        turn = "black";
+        Object.keys(pieces['team2']).forEach((i) => {
+          if (pieces['team2'][i].position === position) {
+            this.killPiece(pieces['team2'][i]);
+          }
+        });
+      }
     }
 
-    let turn = {...this.state.game.turn};
-    turn = (turn === "white" ? "black" : "white");
+    if (this.state.game.turn === "black") {
+      let moved = false;
+      Object.keys(pieces['team2']).forEach((k) => {
+        if (pieces['team2'][k].id === piece.id) {
+          piece.position = position;
+          pieces['team2'][k] = piece;
+          moved = true;
+        }
+      });
+      if (moved) {
+        turn = "white";
+        Object.keys(pieces['team1']).forEach((i) => {
+          if (pieces['team1'][i].position === position) {
+            this.killPiece(pieces['team1'][i]);
+          }
+        });
+      }
+    }
 
     this.setState({
       game : {
@@ -168,8 +169,6 @@ class App extends Component {
   }
 
   render() {
-
-    console.log('rendering...', this.state);
 
     return (
       <div className="App">
